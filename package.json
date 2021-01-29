@@ -1,0 +1,24 @@
+{
+  "name": "todo-api-fs",
+  "version": "1.0.0",
+  "description": "This is a simple API providing todo list functionality, stored in a sqlite database. The API is secured using JWT Authentication & role-based authorization. \r The idea behind this simple API is to demonstrate technical ability in a given UI framework.",
+  "main": "commitlint.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pauljmelia/todo-api-fs.git"
+  },
+  "author": "paul@melia.co.za",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pauljmelia/todo-api-fs/issues"
+  },
+  "homepage": "https://github.com/pauljmelia/todo-api-fs#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "husky": "^4.3.8"
+  }
+}

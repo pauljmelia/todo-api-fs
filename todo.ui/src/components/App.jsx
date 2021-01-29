@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import configureStore from '../redux';
+import { Root } from './Root';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const history = createBrowserHistory({ basename: baseUrl });
@@ -13,17 +14,6 @@ const history = createBrowserHistory({ basename: baseUrl });
 const { store, persistor } = configureStore(history);
 
 let theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#00C6DB',
-    },
-    secondary: {
-      main: '#ff4f49',
-    },
-  },
-  text: {
-    primary: 'hsla(0,0%,100%,.45)',
-  },
   typography: {
     useNextVariants: true,
     body1: {
@@ -40,7 +30,7 @@ export const App = () => (
       <Router history={history}>
         <StylesProvider injectFirst>
           <MuiThemeProvider theme={theme}>
-            <div> Well here we are </div>
+            <Root />
           </MuiThemeProvider>
         </StylesProvider>
       </Router>

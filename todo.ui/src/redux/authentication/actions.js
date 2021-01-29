@@ -1,6 +1,9 @@
 import { api } from '../../api';
-import { postData } from '../../utils';
+import { fetchData, postData } from '../../utils';
 import {
+  FETCH_USER_BEGIN,
+  FETCH_USER_FAILURE,
+  FETCH_USER_SUCCESS,
   REGISTER_BEGIN,
   REGISTER_FAILURE,
   REGISTER_SUCCESS,
@@ -9,6 +12,22 @@ import {
   SIGN_IN_SUCCESS,
   SIGN_OUT,
 } from './actionTypes';
+
+const fetchUserBegin = () => ({
+  type: FETCH_USER_BEGIN,
+});
+
+const fetchUserFailure = (fetchingUserError) => ({
+  type: FETCH_USER_FAILURE,
+  payload: {
+    fetchingUserError,
+  },
+});
+
+const fetchUserSuccess = (user) => ({
+  type: FETCH_USER_SUCCESS,
+  payload: { user },
+});
 
 const registerBegin = () => ({
   type: REGISTER_BEGIN,
@@ -49,6 +68,33 @@ const signInSuccess = (user, token, tokenExpiry) => ({
 const signOut = () => ({
   type: SIGN_OUT,
 });
+
+const fetchUser = () => async (dispatch, getState) => {
+  const {
+    authentication: { fetchingUser, token },
+  } = getState();
+
+  if (fetchingUser) {
+    return;
+  }
+
+  if (!token) {
+    throw Error('Invalid token');
+  }
+
+  dispatch(fetchUserBegin());
+
+  try {
+    const url = api.auth.me;
+    const response = await fetchData(url, token);
+    const user = response.value;
+    dispatch(fetchUserSuccess(user));
+  } catch (ex) {
+    const message = ex.message || ex;
+    dispatch(fetchUserFailure(message));
+    throw ex;
+  }
+};
 
 const register = (email, password) => async (dispatch, getState) => {
   const {
@@ -108,4 +154,4 @@ const signIn = (email, password) => async (dispatch, getState) => {
   }
 };
 
-export const actionCreators = { register, signIn, signOut };
+export const actionCreators = { fetchUser, register, signIn, signOut };

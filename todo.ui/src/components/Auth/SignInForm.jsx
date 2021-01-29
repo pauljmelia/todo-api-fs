@@ -56,6 +56,7 @@ export const SignInForm = () => {
 
     dispatch(actionCreators.register(email, password))
       .then(() => dispatch(actionCreators.signIn(email, password)))
+      .then(() => dispatch(actionCreators.fetchUser()))
       .then(() => {
         history.push(routes.default);
       })
@@ -73,6 +74,7 @@ export const SignInForm = () => {
   const handleSignInClick = (event) => {
     event.preventDefault();
     dispatch(actionCreators.signIn(email, password))
+      .then(() => dispatch(actionCreators.fetchUser()))
       .then(() => {
         history.replace(routes.default);
       })

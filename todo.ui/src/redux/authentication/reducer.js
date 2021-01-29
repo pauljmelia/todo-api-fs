@@ -1,4 +1,7 @@
 import {
+  FETCH_USER_BEGIN,
+  FETCH_USER_FAILURE,
+  FETCH_USER_SUCCESS,
   REGISTER_BEGIN,
   REGISTER_FAILURE,
   REGISTER_SUCCESS,
@@ -12,6 +15,8 @@ export const defaultState = {
   registrationInProgress: false,
   registrationError: null,
   registrationSuccessful: false,
+  fetchingUser: false,
+  fetchingUserError: null,
   credentials: null,
   signInError: null,
   signInInProgress: false,
@@ -26,6 +31,34 @@ export const reducer = (state = defaultState, action) => {
   }
 
   switch (action.type) {
+    case FETCH_USER_BEGIN: {
+      return {
+        ...state,
+        user: null,
+        fetchingUser: true,
+        fetchingUserError: null,
+      };
+    }
+    case FETCH_USER_FAILURE: {
+      const { fetchingUserError } = action.payload;
+
+      return {
+        ...state,
+        user: null,
+        fetchingUser: false,
+        fetchingUserError,
+      };
+    }
+    case FETCH_USER_SUCCESS: {
+      const { user } = action.payload;
+
+      return {
+        ...state,
+        fetchingUser: false,
+        fetchingUserError: null,
+        user,
+      };
+    }
     case REGISTER_BEGIN: {
       return {
         ...state,

@@ -40,9 +40,13 @@ export const fetchData = async (url, authToken = undefined) => {
   }
 
   const response = await fetchRetry(url, params);
-  const checkedResponse = handleErrors(response);
+  const wrappedResponse = handleErrors(response);
 
-  return checkedResponse.json();
+  try {
+    return wrappedResponse.json();
+  } catch {
+    return wrappedResponse;
+  }
 };
 
 export const postData = async (url, body, authToken = undefined) => {
@@ -72,7 +76,11 @@ export const postData = async (url, body, authToken = undefined) => {
       return response.statusText;
     }
 
-    return wrappedResponse;
+    try {
+      return wrappedResponse.json();
+    } catch {
+      return wrappedResponse;
+    }
   } catch (err) {
     if (wrappedResponse.status < 400) {
       return wrappedResponse.statusText;
@@ -104,7 +112,11 @@ export const putData = async (url, body, authToken = undefined) => {
   const response = await fetchRetry(url, params);
   const wrappedResponse = await handleErrors(response);
 
-  return wrappedResponse;
+  try {
+    return wrappedResponse.json();
+  } catch {
+    return wrappedResponse;
+  }
 };
 
 export const deleteData = async (url, authToken = undefined) => {
@@ -128,5 +140,9 @@ export const deleteData = async (url, authToken = undefined) => {
   const response = await fetchRetry(url, params);
   const wrappedResponse = await handleErrors(response);
 
-  return wrappedResponse;
+  try {
+    return wrappedResponse.json();
+  } catch {
+    return wrappedResponse;
+  }
 };

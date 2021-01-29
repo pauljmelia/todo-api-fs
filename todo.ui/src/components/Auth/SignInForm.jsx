@@ -56,7 +56,6 @@ export const SignInForm = () => {
 
     dispatch(actionCreators.register(email, password))
       .then(() => dispatch(actionCreators.signIn(email, password)))
-      .then(() => dispatch(actionCreators.fetchUser()))
       .then(() => {
         history.push(routes.default);
       })
@@ -74,7 +73,6 @@ export const SignInForm = () => {
   const handleSignInClick = (event) => {
     event.preventDefault();
     dispatch(actionCreators.signIn(email, password))
-      .then(() => dispatch(actionCreators.fetchUser()))
       .then(() => {
         history.replace(routes.default);
       })
@@ -120,6 +118,14 @@ export const SignInForm = () => {
                         className={classes.spaced}
                       />
                       <Button
+                        disabled={!(email && password) || registrationInProgress || signInInProgress}
+                        variant="outlined"
+                        color="primary"
+                        onClick={handleSignInClick}
+                      >
+                        Sign in
+                      </Button>
+                      <Button
                         disabled={
                           !(email && password) || registrationInProgress || signInInProgress || registrationSuccessful
                         }
@@ -128,14 +134,6 @@ export const SignInForm = () => {
                         onClick={handleRegisterClick}
                       >
                         Register
-                      </Button>
-                      <Button
-                        disabled={!(email && password) || registrationInProgress || signInInProgress}
-                        variant="outlined"
-                        color="primary"
-                        onClick={handleSignInClick}
-                      >
-                        Sign in
                       </Button>
                     </Box>
                   </form>

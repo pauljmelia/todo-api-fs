@@ -16,9 +16,7 @@ export const TodoList = (props) => {
   const [updateOpen, setUpdateOpen] = useState(false);
   const dispatch = useDispatch();
 
-  const loadData = useMemo(() => {
-    dispatch(actionCreators.fetchTodos());
-  }, [dispatch]);
+  const loadData = useMemo(() => () => dispatch(actionCreators.fetchTodos()), [dispatch]);
 
   useEffect(() => {
     loadData();

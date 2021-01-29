@@ -1,3 +1,4 @@
 import React from 'react';
+import { TodosPanel } from '../components/Todos';
 
-export const Default = () => <div>Default page</div>;
+export const Default = () => <TodosPanel />;

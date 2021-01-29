@@ -87,7 +87,7 @@ const fetchUser = () => async (dispatch, getState) => {
   try {
     const url = api.auth.me;
     const response = await fetchData(url, token);
-    const user = response.value;
+    const user = response;
     dispatch(fetchUserSuccess(user));
   } catch (ex) {
     const message = ex.message || ex;

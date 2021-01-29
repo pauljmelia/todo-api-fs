@@ -4,7 +4,7 @@ export const api = {
   auth: {
     register: `${apiRoot}/auth/register`,
     signIn: `${apiRoot}/auth`,
-    me: `${apiRoot}/me`,
+    me: `${apiRoot}/auth/me`,
   },
   todos: {
     add: `${apiRoot}/todos`,

@@ -111,7 +111,7 @@ const updateTodoSuccess = (id, todo) => ({
 
 const addTodo = (title, description) => async (dispatch, getState) => {
   const {
-    authentications: { token, tokenExpiry },
+    authentication: { token, tokenExpiry },
   } = getState();
 
   if (!(title || description)) {
@@ -140,7 +140,7 @@ const addTodo = (title, description) => async (dispatch, getState) => {
 
 const toggleTodoIsComplete = (id, isComplete) => async (dispatch, getState) => {
   const {
-    authentications: { token, tokenExpiry },
+    authentication: { token, tokenExpiry },
   } = getState();
 
   if (!id) {
@@ -168,7 +168,7 @@ const toggleTodoIsComplete = (id, isComplete) => async (dispatch, getState) => {
 
 const deleteTodo = (id) => async (dispatch, getState) => {
   const {
-    authentications: { token, tokenExpiry },
+    authentication: { token, tokenExpiry },
   } = getState();
 
   if (!id) {
@@ -197,7 +197,7 @@ const deleteTodo = (id) => async (dispatch, getState) => {
 
 const updateTodo = (id, title, description, isComplete) => async (dispatch, getState) => {
   const {
-    authentications: { token, tokenExpiry },
+    authentication: { token, tokenExpiry },
   } = getState();
 
   if (!(id && (title || description))) {
@@ -226,7 +226,7 @@ const updateTodo = (id, title, description, isComplete) => async (dispatch, getS
 
 const fetchTodos = () => async (dispatch, getState) => {
   const {
-    authentications: { token, tokenExpiry },
+    authentication: { token, tokenExpiry },
   } = getState();
 
   if (!(token && moment(tokenExpiry).isAfter(moment()))) {
@@ -238,7 +238,7 @@ const fetchTodos = () => async (dispatch, getState) => {
   try {
     const url = api.todos.list;
     const response = await fetchData(url, token);
-    const todos = response.value;
+    const todos = response;
     dispatch(fetchTodosSuccess(todos));
 
     return todos;

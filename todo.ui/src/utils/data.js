@@ -34,6 +34,7 @@ export const fetchData = async (url, authToken = undefined) => {
       ...params,
       headers: {
         Authorization: `Bearer ${authToken}`,
+        ...params.headers,
       },
     };
   }
@@ -55,11 +56,11 @@ export const postData = async (url, body, authToken = undefined) => {
 
   if (authToken) {
     params = {
+      ...params,
       headers: {
         Authorization: `Bearer ${authToken}`,
         ...params.headers,
       },
-      ...params,
     };
   }
 
@@ -71,7 +72,7 @@ export const postData = async (url, body, authToken = undefined) => {
       return response.statusText;
     }
 
-    return wrappedResponse.json();
+    return wrappedResponse;
   } catch (err) {
     if (wrappedResponse.status < 400) {
       return wrappedResponse.statusText;
@@ -92,18 +93,18 @@ export const putData = async (url, body, authToken = undefined) => {
 
   if (authToken) {
     params = {
+      ...params,
       headers: {
         Authorization: `Bearer ${authToken}`,
         ...params.headers,
       },
-      ...params,
     };
   }
 
   const response = await fetchRetry(url, params);
   const wrappedResponse = await handleErrors(response);
 
-  return wrappedResponse.json();
+  return wrappedResponse;
 };
 
 export const deleteData = async (url, authToken = undefined) => {
@@ -116,16 +117,16 @@ export const deleteData = async (url, authToken = undefined) => {
 
   if (authToken) {
     params = {
+      ...params,
       headers: {
         Authorization: `Bearer ${authToken}`,
         ...params.headers,
       },
-      ...params,
     };
   }
 
   const response = await fetchRetry(url, params);
   const wrappedResponse = await handleErrors(response);
 
-  return wrappedResponse.json();
+  return wrappedResponse;
 };

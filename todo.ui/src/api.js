@@ -4,6 +4,13 @@ export const api = {
   auth: {
     register: `${apiRoot}/auth/register`,
     signIn: `${apiRoot}/auth`,
-    details: `${apiRoot}/me`,
+    me: `${apiRoot}/me`,
+  },
+  todos: {
+    add: `${apiRoot}/todos`,
+    list: `${apiRoot}/todos`,
+    toggleIsComplete: (id) => `${apiRoot}/todos/${id}/iscomplete`,
+    update: (id) => `${apiRoot}/todos/${id}`,
+    delete: (id) => `${apiRoot}/todos/${id}`,
   },
 };

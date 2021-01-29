@@ -105,3 +105,27 @@ export const putData = async (url, body, authToken = undefined) => {
 
   return wrappedResponse.json();
 };
+
+export const deleteData = async (url, authToken = undefined) => {
+  let params = {
+    method: 'DELETE',
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
+  };
+
+  if (authToken) {
+    params = {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        ...params.headers,
+      },
+      ...params,
+    };
+  }
+
+  const response = await fetchRetry(url, params);
+  const wrappedResponse = await handleErrors(response);
+
+  return wrappedResponse.json();
+};

@@ -1,0 +1,42 @@
+{
+  "extends": ["react-app", "airbnb", "airbnb/hooks", "prettier"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "consistent-return": "off",
+    "import/prefer-default-export": "off",
+    "import/no-unresolved": ["error", { "caseSensitive": false }],
+    "react/jsx-props-no-spreading": "off",
+    "react/forbid-prop-types": "off",
+    "no-underscore-dangle": "off",
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": "*", "next": "block-like" },
+      { "blankLine": "always", "prev": "block-like", "next": "*" },
+      { "blankLine": "always", "prev": "*", "next": "return" },
+      { "blankLine": "always", "prev": "multiline-const", "next": "*" },
+      { "blankLine": "always", "prev": "*", "next": "multiline-const" },
+      { "blankLine": "always", "prev": "multiline-let", "next": "*" },
+      { "blankLine": "always", "prev": "*", "next": "multiline-let" },
+      { "blankLine": "always", "prev": "multiline-var", "next": "*" },
+      { "blankLine": "always", "prev": "*", "next": "multiline-var" },
+      { "blankLine": "any", "prev": ["case", "default"], "next": "*" }
+    ],
+    "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+    "no-param-reassign": ["error", { "props": false }],
+    "yoda": ["error", "never", { "onlyEquality": true }]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx"],
+        "moduleDirectory": ["node_modules", "src"]
+      }
+    }
+  }
+}

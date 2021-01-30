@@ -11,6 +11,12 @@ class FetchError extends Error {
   }
 }
 
+const parseResponse = async (response) => {
+  const data = await response.text();
+
+  return data ? JSON.parse(data) : {};
+};
+
 const handleErrors = (response) => {
   if (!response.ok) {
     const message =
@@ -42,11 +48,7 @@ export const fetchData = async (url, authToken = undefined) => {
   const response = await fetchRetry(url, params);
   const wrappedResponse = handleErrors(response);
 
-  try {
-    return wrappedResponse.json();
-  } catch {
-    return wrappedResponse;
-  }
+  return parseResponse(wrappedResponse);
 };
 
 export const postData = async (url, body, authToken = undefined) => {
@@ -76,11 +78,7 @@ export const postData = async (url, body, authToken = undefined) => {
       return response.statusText;
     }
 
-    try {
-      return wrappedResponse.json();
-    } catch {
-      return wrappedResponse;
-    }
+    return parseResponse(wrappedResponse);
   } catch (err) {
     if (wrappedResponse.status < 400) {
       return wrappedResponse.statusText;
@@ -112,11 +110,7 @@ export const putData = async (url, body, authToken = undefined) => {
   const response = await fetchRetry(url, params);
   const wrappedResponse = await handleErrors(response);
 
-  try {
-    return wrappedResponse.json();
-  } catch {
-    return wrappedResponse;
-  }
+  return parseResponse(wrappedResponse);
 };
 
 export const deleteData = async (url, authToken = undefined) => {
@@ -140,9 +134,5 @@ export const deleteData = async (url, authToken = undefined) => {
   const response = await fetchRetry(url, params);
   const wrappedResponse = await handleErrors(response);
 
-  try {
-    return wrappedResponse.json();
-  } catch {
-    return wrappedResponse;
-  }
+  return parseResponse(wrappedResponse);
 };

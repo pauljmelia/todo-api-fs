@@ -41,11 +41,7 @@ export const reducer = (state = defaultState, action) => {
       return { ...state, error, adding: false };
     }
     case ADD_TODO_SUCCESS: {
-      const { todos } = state;
-      const { todo } = action.payload;
-      todos.push(todo);
-
-      return { ...state, todos, adding: false };
+      return { ...state, error: null, adding: false };
     }
     case DELETE_TODO_BEGIN: {
       return { ...state, error: null, deleting: true };

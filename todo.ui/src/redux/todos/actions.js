@@ -126,11 +126,10 @@ const addTodo = (title, description) => async (dispatch, getState) => {
 
   try {
     const url = api.todos.add;
-    const response = await postData(url, { title, description }, token);
-    const todo = response.value;
-    dispatch(addTodoSuccess(todo));
+    await postData(url, { title, description }, token);
+    dispatch(addTodoSuccess());
 
-    return todo;
+    return true;
   } catch (ex) {
     const message = ex.message || ex;
     dispatch(addTodoFailure(message));

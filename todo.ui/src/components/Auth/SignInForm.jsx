@@ -8,6 +8,11 @@ import { actionCreators } from '../../redux/authentication';
 import { routes } from '../../routes';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
   spaced: {
     paddingBottom: theme.spacing(1),
   },
@@ -117,24 +122,26 @@ export const SignInForm = () => {
                         variant="standard"
                         className={classes.spaced}
                       />
-                      <Button
-                        disabled={!(email && password) || registrationInProgress || signInInProgress}
-                        variant="outlined"
-                        color="primary"
-                        onClick={handleSignInClick}
-                      >
-                        Sign in
-                      </Button>
-                      <Button
-                        disabled={
-                          !(email && password) || registrationInProgress || signInInProgress || registrationSuccessful
-                        }
-                        variant="outlined"
-                        color="primary"
-                        onClick={handleRegisterClick}
-                      >
-                        Register
-                      </Button>
+                      <div className={classes.root}>
+                        <Button
+                          disabled={!(email && password) || registrationInProgress || signInInProgress}
+                          variant="outlined"
+                          color="primary"
+                          onClick={handleSignInClick}
+                        >
+                          Sign in
+                        </Button>
+                        <Button
+                          disabled={
+                            !(email && password) || registrationInProgress || signInInProgress || registrationSuccessful
+                          }
+                          variant="outlined"
+                          color="primary"
+                          onClick={handleRegisterClick}
+                        >
+                          Register
+                        </Button>
+                      </div>
                     </Box>
                   </form>
                 </Box>

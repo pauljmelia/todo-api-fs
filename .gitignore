@@ -338,5 +338,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
-src/EyeGym/ClientApp/.eslintcache
-/build-output
+
+
+todo.ui/.eslintcache

@@ -1,7 +1,8 @@
 import { Box, Button, Grid, makeStyles } from '@material-ui/core';
 import clsx from 'clsx';
-import is from 'is_js';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { actionCreators } from '../../redux/todos';
 import { TodoModal } from '../Modals';
 import { TodoList } from './TodoList';
 
@@ -37,24 +38,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const TodosPanel = () => {
+  const { todos } = useSelector((state) => state.todos);
   const [addOpen, setAddOpen] = useState(false);
-  const [addCallback, setAddCallback] = useState(() => {});
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const loadData = useCallback(() => dispatch(actionCreators.fetchTodos()), [dispatch]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const handleAddClick = () => {
     setAddOpen(true);
   };
 
-  const handleAddClosed = () => {
+  const handleAddClosed = (cancel) => {
     setAddOpen(false);
 
-    if (is.function(addCallback)) {
-      addCallback();
+    if (!cancel) {
+      loadData();
     }
-  };
-
-  const handleListMounted = (callback) => {
-    setAddCallback(callback);
   };
 
   return (
@@ -72,7 +76,7 @@ export const TodosPanel = () => {
         <Box className={classes.stretched}>
           <Grid container spacing={2} className={classes.container}>
             <Grid item xs={12} md={6}>
-              <TodoList onMount={handleListMounted} />
+              <TodoList todos={todos} />
             </Grid>
           </Grid>
         </Box>

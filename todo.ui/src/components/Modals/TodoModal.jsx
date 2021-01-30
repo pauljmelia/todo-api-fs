@@ -11,38 +11,62 @@ import {
   TextField,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { actionCreators } from '../../redux/todos';
 
+const defaultTodo = {
+  title: '',
+  description: '',
+  isComplete: false,
+};
+
 export const TodoModal = (props) => {
   const { onClose, open, todo, mode, ...rest } = props;
-  const [title, setTitle] = useState(todo?.title);
-  const [description, setDescription] = useState(todo?.description);
-  const [isComplete, setIsComplete] = useState(todo?.isComplete);
+  const [state, setState] = useState(defaultTodo);
+
+  useEffect(() => {
+    if (mode === 'update' && todo) {
+      setState(todo);
+    } else {
+      setState(defaultTodo);
+    }
+  }, [mode, todo]);
+
   const dispatch = useDispatch();
 
   const handleTitleChanged = (event) => {
-    setTitle(event.target.value);
+    setState((s) => ({
+      ...s,
+      title: event.target.value,
+    }));
   };
 
   const handleDescriptionChanged = (event) => {
-    setDescription(event.target.value);
+    setState((s) => ({
+      ...s,
+      description: event.target.value,
+    }));
   };
 
   const handleIsCompleteChanged = (event) => {
-    setIsComplete(event.target.checked);
+    setState((s) => ({
+      ...s,
+      isComplete: event.target.checked,
+    }));
   };
 
   const handleCancelClick = () => {
-    onClose();
+    onClose(true);
   };
 
   const handleOkayClick = () => {
     if (mode === 'add') {
-      dispatch(actionCreators.addTodo(title, description)).then(() => onClose());
+      dispatch(actionCreators.addTodo(state.title, state.description)).then(() => onClose(false));
     } else {
-      dispatch(actionCreators.updateTodo(todo.id, title, description, isComplete)).then(() => onClose());
+      dispatch(actionCreators.updateTodo(todo.id, state.title, state.description, state.isComplete)).then(() =>
+        onClose(false)
+      );
     }
   };
 
@@ -66,7 +90,8 @@ export const TodoModal = (props) => {
           id="title"
           label="Title"
           variant="standard"
-          value={title}
+          value={state.title}
+          fullWidth
           onChange={handleTitleChanged}
         />
         <TextField
@@ -74,20 +99,21 @@ export const TodoModal = (props) => {
           id="decription"
           label="Description"
           variant="standard"
-          value={description}
+          value={state.description}
+          fullWidth
           onChange={handleDescriptionChanged}
         />
         {mode === 'update' && (
           <FormGroup row>
             <FormControlLabel
-              control={<Checkbox checked={isComplete} onChange={handleIsCompleteChanged} />}
+              control={<Checkbox checked={state.isComplete} onChange={handleIsCompleteChanged} />}
               label="Is complete"
             />
           </FormGroup>
         )}
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={handleOkayClick}>
+        <Button autoFocus onClick={handleOkayClick} disabled={!(state.title || state.description)}>
           Okay
         </Button>
         <Button onClick={handleCancelClick}>Cancel</Button>
@@ -112,5 +138,5 @@ TodoModal.defaultProps = {
   mode: 'add',
   onClose: () => {},
   open: false,
-  todo: { description: '', title: '', isComplete: false },
+  todo: defaultTodo,
 };
